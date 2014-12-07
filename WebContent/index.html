@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ratatouille - buscador de receitas</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    	function buscar(){
+    		$.get("./rest/busca/" + $("#txtQuery").val(), function(data){
+    			alert(data)    			
+    		});
+    	}
+    	
+    	
+    	function mostrarResultado(receitas){
+			alert(receitas);    		
+    	}
+    </script>
+  </head>
+	<body>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="javascript/jquery-1.10.2.min.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="javascript/bootstrap.min.js"></script>
+
+		<div class="page-header">
+			<h1>Ratatouille <small>buscador de receitas</small></h1>
+		</div>
+		
+		<div class="row">
+		 	<div class="col-lg-6">
+				<div class="input-group">
+					<input id="txtQuery" type="text" class="form-control" placeholder="nome da receita ou dos ingredientes">
+			  		<span class="input-group-btn">
+						<button class="btn btn-default" type="button" onclick="buscar();">Buscar!</button>
+			      	</span>
+		      	</div>
+		   	</div>
+		</div>
+	</body>
+</html>
