@@ -8,6 +8,9 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/mrjsontable.css" rel="stylesheet" />
+    <link href="css/ratatouille.css" rel="stylesheet" />
+   
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -18,14 +21,29 @@
     <script type="text/javascript">
     	function buscar(){
     		$.get("./rest/busca/" + $("#txtQuery").val(), function(data){
-    			alert(data)    			
+    			 $("#results").empty();
+    			 $("#results").mrjsontable({
+    				 columns: [
+    				            new $.fn.mrjsontablecolumn({
+    				                heading: "Nome",
+    				                data: "nome"
+    				            }),
+    				            new $.fn.mrjsontablecolumn({
+    				                heading: "Link",
+    				                data: "link",
+    				                starthidden: true
+    				            })  
+    				        ],
+    		            data: data,
+    		            sortable:false
+    		        });		
+    			 $('.legend').remove();
+    			 $( "#results tr" ).click(function() {
+    				 window.open($( this ).find('td:eq( 1 )').text());
+    			  });
+    			 
     		});
-    	}
-    	
-    	
-    	function mostrarResultado(receitas){
-			alert(receitas);    		
-    	}
+    	}    	
     </script>
   </head>
 	<body>
@@ -33,7 +51,7 @@
 		<script src="javascript/jquery-1.10.2.min.js"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="javascript/bootstrap.min.js"></script>
-
+		<script src="javascript/mrjsontable.min.js"></script>
 		<div class="page-header">
 			<h1>Ratatouille <small>buscador de receitas</small></h1>
 		</div>
@@ -48,5 +66,7 @@
 		      	</div>
 		   	</div>
 		</div>
+		
+		<div id="results"></div>
 	</body>
 </html>
