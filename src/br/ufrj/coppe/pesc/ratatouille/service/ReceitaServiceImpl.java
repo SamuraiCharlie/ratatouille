@@ -35,6 +35,7 @@ public class ReceitaServiceImpl implements ReceitaService {
 			return listaReceitas;
 		}
 		catch (ImpossivelObterDadosException e) {
+			e.printStackTrace();
 			String msg = "Erro obtendo receitas.";
 			logger.error(msg, e);
 			daoFactory.rollback();

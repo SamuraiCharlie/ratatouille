@@ -6,10 +6,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-
-
-import org.slf4j.Logger;
-
 import com.google.gson.Gson;
 
 import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelBuscarReceitaPorIngredienteException;
@@ -20,8 +16,6 @@ import br.ufrj.coppe.pesc.ratatouille.service.ServiceLocator;
 @Path("/busca/{query}")
 public class Busca {
 
-	private static final Logger logger = org.slf4j.LoggerFactory.getLogger(Busca.class);
-	
 
 	@GET
 	@Produces("text/json")
@@ -34,8 +28,6 @@ public class Busca {
 			return gson.toJson(receitas);
 		}
 		catch (ImpossivelBuscarReceitaPorIngredienteException e) {
-			String msg = "Erro buscando receitas por ingrediente.";
-			logger.error(msg, e);
 			return "erro";
 		}
 	}

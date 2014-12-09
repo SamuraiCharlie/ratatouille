@@ -6,19 +6,18 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "REC_RECEITA")
+@Table(name = "RECEITAS")
 public class Receita {
 
 	private String nome;
-	private String url;
-	private String html;
-	private String textoIngredientes;
+	private String link;
+	private String ingredientes;
 	
 	public Receita() {
 	}
 
 
-	@Column(name="rec_nome")
+	@Column(name="nome")
 	public String getNome() {
 		return nome;
 	}
@@ -29,35 +28,35 @@ public class Receita {
 	}
 
 	@Id
-	@Column(name="rec_url")
-	public String getUrl() {
-		return url;
+	@Column(name="link")
+	public String getLink() {
+		return link;
 	}
 
 	
-	public void setUrl(String url) {
-		this.url = url;
+	public void setLink(String url) {
+		this.link = url;
 	}
 
-	@Column(name="rec_html")
-	public String getHtml() {
-		return html;
+//	@Column(name="rec_html")
+//	public String getHtml() {
+//		return html;
+//	}
+//
+//	
+//	public void setHtml(String html) {
+//		this.html = html;
+//	}
+
+	
+	@Column(name="ingredientes")
+	public String getIngredientes() {
+		return ingredientes;
 	}
 
 	
-	public void setHtml(String html) {
-		this.html = html;
-	}
-
-	
-	@Column(name="rec_ingredientes")
-	public String getTextoIngredientes() {
-		return textoIngredientes;
-	}
-
-	
-	public void setTextoIngredientes(String textoIngredientes) {
-		this.textoIngredientes = textoIngredientes;
+	public void setIngredientes(String textoIngredientes) {
+		this.ingredientes = textoIngredientes;
 	}
 
 }
