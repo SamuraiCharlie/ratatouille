@@ -24,5 +24,12 @@ public class MySQLReceitaDAO extends MySQLBaseDAO<Receita> implements ReceitaDAO
 		}
 		
 		return getFRMObjectStatement().obterOnde(strb.toString());
+	} 
+	
+	@Override
+	public List<Receita> obterTodos() throws ImpossivelObterDadosException {
+		
+		
+		return getFRMObjectStatement().obterTodos();
 	}
 }

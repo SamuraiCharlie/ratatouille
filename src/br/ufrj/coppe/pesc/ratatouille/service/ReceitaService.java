@@ -9,5 +9,7 @@ import br.ufrj.coppe.pesc.ratatouille.model.Receita;
 public interface ReceitaService {
 
 	List<Receita> buscaPorIngredientes(String query) throws ImpossivelBuscarReceitaPorIngredienteException;
+	List<Receita> buscaTodos() throws ImpossivelBuscarReceitaPorIngredienteException;
+
 
 }

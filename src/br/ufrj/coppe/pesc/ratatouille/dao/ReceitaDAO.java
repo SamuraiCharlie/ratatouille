@@ -10,5 +10,5 @@ import br.ufrj.coppe.pesc.ratatouille.model.Receita;
 public interface ReceitaDAO extends DataAccessObject<Receita>{
 
 	List<Receita> obterPorIngredientes(String... ingredientes) throws ImpossivelObterDadosException;
-
+	List<Receita> obterTodos() throws ImpossivelObterDadosException;
 }
