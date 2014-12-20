@@ -41,7 +41,7 @@ public class MySQLDAOFactory extends RatatouilleDAOFactory {
 	
 	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/nutch?charset=utf8";
 
-	private static final String password = "20804312";
+	private static final String password = "bri2014";
 
 	private static final String username = "nutch";
 	

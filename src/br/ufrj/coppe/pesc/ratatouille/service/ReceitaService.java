@@ -22,8 +22,17 @@ public interface ReceitaService {
 	 * @throws ImpossivelBuscarReceitaPorIngredienteException caso não seja possível executar a consulta.
 	 */
 	List<Receita> buscaPorIngredientes(String query) throws ImpossivelBuscarReceitaPorIngredienteException;
-
 	
+	
+	
+	/**
+	 * Busca todas as receitas.
+	 * @return lista de todas as receitas cadastradas.
+	 * @throws ImpossivelBuscarReceitaPorIngredienteException
+	 */
+	List<Receita> buscaTodos() throws ImpossivelBuscarReceitaPorIngredienteException;
+
+
 	
 	/**
 	 * Cadastra receita no banco de dados.
