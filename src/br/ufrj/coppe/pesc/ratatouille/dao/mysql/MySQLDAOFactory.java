@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.naming.NoInitialContextException;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
@@ -19,12 +20,15 @@ import br.com.felix.orm.DataAccessObject;
 import br.com.felix.orm.exception.ImpossivelObterConexaoException;
 import br.ufrj.coppe.pesc.ratatouille.dao.RatatouilleDAOFactory;
 import br.ufrj.coppe.pesc.ratatouille.dao.ReceitaDAO;
+import br.ufrj.coppe.pesc.ratatouille.dao.WebpageDAO;
 import br.ufrj.coppe.pesc.ratatouille.model.Receita;
+import br.ufrj.coppe.pesc.ratatouille.model.Webpage;
 
 public class MySQLDAOFactory extends RatatouilleDAOFactory {
 
 	private static Logger logger = LoggerFactory.getLogger(MySQLDAOFactory.class);
 	private ReceitaDAO receitaDAO;
+	private WebpageDAO webpageDAO;
 
 	static {
 		try {
@@ -35,11 +39,11 @@ public class MySQLDAOFactory extends RatatouilleDAOFactory {
 		}
 	}
 	
-	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/receitas?charset=utf8";
+	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/nutch?charset=utf8";
 
-	private static final String password = "root";
+	private static final String password = "20804312";
 
-	private static final String username = "root";
+	private static final String username = "nutch";
 	
 	private static DataSource dataSource;
 	
@@ -48,6 +52,7 @@ public class MySQLDAOFactory extends RatatouilleDAOFactory {
 
 	public MySQLDAOFactory() {
 		receitaDAO = new MySQLReceitaDAO(this);
+		webpageDAO = new MySQLWebpageDAO(this);
 	}
 
 
@@ -58,6 +63,11 @@ public class MySQLDAOFactory extends RatatouilleDAOFactory {
 		return receitaDAO;
 	}
 
+	
+	@Override
+	public WebpageDAO getWebpageDAO() {
+		return webpageDAO;
+	}
 
 
 	@Override
@@ -78,7 +88,7 @@ public class MySQLDAOFactory extends RatatouilleDAOFactory {
 				catch (NamingException e) {
 					useDataSource = false;
 					String msg = "Erro JNDI criando conexão MySQL. Conexões serão abertas SEM POOL.";
-					logger.error(msg, e);
+					logger.warn(msg, e);
 				}
 			}
 			
@@ -106,10 +116,12 @@ public class MySQLDAOFactory extends RatatouilleDAOFactory {
 		if (mapaDAO == null){
 			mapaDAO = new HashMap<Class<?>, DataAccessObject<?>>();
 			Class<?>[] classes = new Class<?>[]{
-					Receita.class
+					Receita.class,
+					Webpage.class
 			};
 			DataAccessObject<?>[] daos = new DataAccessObject<?>[]{
-					receitaDAO
+					receitaDAO,
+					webpageDAO
 			};
 			for (int i=0; i<classes.length;i++){
 				mapaDAO.put(classes[i], daos[i]);

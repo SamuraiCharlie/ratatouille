@@ -8,6 +8,10 @@ import br.com.felix.orm.BaseDAOFactory;
 import br.com.felix.orm.exception.TransactionException;
 import br.ufrj.coppe.pesc.ratatouille.dao.mysql.MySQLDAOFactory;
 
+/**
+ * Responsável por obter instâncias dos DAOs e iniciar e fechar transações.
+ * 
+ * */
 public abstract class RatatouilleDAOFactory extends BaseDAOFactory {
 
 	private static ThreadLocal<RatatouilleDAOFactory> tlFactories;
@@ -20,6 +24,11 @@ public abstract class RatatouilleDAOFactory extends BaseDAOFactory {
 
 
 
+	/**
+	 * 
+	 * Obtém uma instância do DAOFactory.
+	 * @return
+	 */
 	public static RatatouilleDAOFactory instance() {
 		RatatouilleDAOFactory instance = tlFactories.get();
 		if (instance == null){
@@ -31,12 +40,9 @@ public abstract class RatatouilleDAOFactory extends BaseDAOFactory {
 
 
 
-
-	public abstract ReceitaDAO getReceitaDAO();
-
-
-
-
+	/* (non-Javadoc)
+	 * @see br.com.felix.orm.BaseDAOFactory#rollback()
+	 */
 	@Override
 	public synchronized void rollback() {
 		try {
@@ -47,7 +53,11 @@ public abstract class RatatouilleDAOFactory extends BaseDAOFactory {
 		}
 	}
 
+	
 
+	public abstract ReceitaDAO getReceitaDAO();
 
-
+	
+	
+	public abstract WebpageDAO getWebpageDAO();
 }

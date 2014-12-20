@@ -13,10 +13,19 @@ import br.ufrj.coppe.pesc.ratatouille.model.Receita;
 import br.ufrj.coppe.pesc.ratatouille.service.ReceitaService;
 import br.ufrj.coppe.pesc.ratatouille.service.ServiceLocator;
 
+/**
+ * Realiza a busca de receitas por ingredientes.
+ *
+ */
 @Path("/busca/{query}")
 public class Busca {
 
 
+	/**
+	 * Efetua a busca de receitas por ingredientes.
+	 * @param query termos da busca do usuário.
+	 * @return Lista de receitas no formato JSON.
+	 */
 	@GET
 	@Produces("text/json")
 	public String buscaReceitas(@PathParam("query") String query) {

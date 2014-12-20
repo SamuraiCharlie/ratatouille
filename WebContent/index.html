@@ -20,28 +20,14 @@
     <![endif]-->
     <script type="text/javascript">
     	function buscar(){
-    		$.get("./rest/busca/" + $("#txtQuery").val(), function(data){
-    			 $("#results").empty();
-    			 $("#results").mrjsontable({
-    				 columns: [
-    				            new $.fn.mrjsontablecolumn({
-    				                heading: "Nome",
-    				                data: "nome"
-    				            }),
-    				            new $.fn.mrjsontablecolumn({
-    				                heading: "Link",
-    				                data: "link",
-    				                starthidden: true
-    				            })  
-    				        ],
-    		            data: data,
-    		            sortable:false
-    		        });		
-    			 $('.legend').remove();
-    			 $( "#results tr" ).click(function() {
-    				 window.open($( this ).find('td:eq( 1 )').text());
-    			  });
-    			 
+    		$.get("./rest/busca/" + $("#txtQuery").val(), function(receitas){
+    			$("#tblReceitas").empty();
+    			var receita;
+    			var i;
+				for (i=0;i<receitas.length; i++){
+					receita = receitas[i];
+					$("#tblReceitas").append("<tr><td>"+receita.nome+"</td></tr>");
+				}
     		});
     	}    	
     </script>
@@ -67,6 +53,11 @@
 		   	</div>
 		</div>
 		
-		<div id="results"></div>
+		<div class="row" style="padding-top:20px">
+			<div id="results" class="col-lg-6">
+				<table id="tblReceitas" class="table">
+				</table>
+			</div>
+		</div>
 	</body>
 </html>
