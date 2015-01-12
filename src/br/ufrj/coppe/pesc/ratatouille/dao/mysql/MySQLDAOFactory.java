@@ -18,9 +18,15 @@ import org.slf4j.MarkerFactory;
 
 import br.com.felix.orm.DataAccessObject;
 import br.com.felix.orm.exception.ImpossivelObterConexaoException;
+import br.ufrj.coppe.pesc.ratatouille.dao.AlimentoDAO;
+import br.ufrj.coppe.pesc.ratatouille.dao.IngredienteDAO;
+import br.ufrj.coppe.pesc.ratatouille.dao.InstrucaoPreparoDAO;
 import br.ufrj.coppe.pesc.ratatouille.dao.RatatouilleDAOFactory;
 import br.ufrj.coppe.pesc.ratatouille.dao.ReceitaDAO;
 import br.ufrj.coppe.pesc.ratatouille.dao.WebpageDAO;
+import br.ufrj.coppe.pesc.ratatouille.model.Alimento;
+import br.ufrj.coppe.pesc.ratatouille.model.Ingrediente;
+import br.ufrj.coppe.pesc.ratatouille.model.InstrucaoPreparo;
 import br.ufrj.coppe.pesc.ratatouille.model.Receita;
 import br.ufrj.coppe.pesc.ratatouille.model.Webpage;
 
@@ -29,7 +35,10 @@ public class MySQLDAOFactory extends RatatouilleDAOFactory {
 	private static Logger logger = LoggerFactory.getLogger(MySQLDAOFactory.class);
 	private ReceitaDAO receitaDAO;
 	private WebpageDAO webpageDAO;
-
+	private AlimentoDAO alimentoDAO;
+	private IngredienteDAO ingredienteDAO;
+	private InstrucaoPreparoDAO instrucaoPreparoDAO;
+	
 	static {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -41,7 +50,7 @@ public class MySQLDAOFactory extends RatatouilleDAOFactory {
 	
 	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/nutch?charset=utf8";
 
-	private static final String password = "bri2014";
+	private static final String password = "20804312";
 
 	private static final String username = "nutch";
 	
@@ -53,6 +62,9 @@ public class MySQLDAOFactory extends RatatouilleDAOFactory {
 	public MySQLDAOFactory() {
 		receitaDAO = new MySQLReceitaDAO(this);
 		webpageDAO = new MySQLWebpageDAO(this);
+		alimentoDAO = new MySQLAlimentoDAO(this);
+		ingredienteDAO = new MySQLIngredienteDAO(this);
+		instrucaoPreparoDAO = new MySQLInstrucaoPreparoDAO(this);
 	}
 
 
@@ -69,6 +81,22 @@ public class MySQLDAOFactory extends RatatouilleDAOFactory {
 		return webpageDAO;
 	}
 
+
+	@Override
+	public AlimentoDAO getAlimentoDAO() {
+		return alimentoDAO;
+	}
+
+
+	@Override
+	public IngredienteDAO getIngredienteDAO() {
+		return ingredienteDAO;
+	}
+	
+	@Override
+	public InstrucaoPreparoDAO getInstrucaoPreparoDAO(){
+		return instrucaoPreparoDAO;
+	}
 
 	@Override
 	public Connection createConnection() throws ImpossivelObterConexaoException {
@@ -117,11 +145,17 @@ public class MySQLDAOFactory extends RatatouilleDAOFactory {
 			mapaDAO = new HashMap<Class<?>, DataAccessObject<?>>();
 			Class<?>[] classes = new Class<?>[]{
 					Receita.class,
-					Webpage.class
+					Webpage.class,
+					Alimento.class,
+					Ingrediente.class,
+					InstrucaoPreparo.class
 			};
 			DataAccessObject<?>[] daos = new DataAccessObject<?>[]{
 					receitaDAO,
-					webpageDAO
+					webpageDAO,
+					alimentoDAO,
+					ingredienteDAO,
+					instrucaoPreparoDAO
 			};
 			for (int i=0; i<classes.length;i++){
 				mapaDAO.put(classes[i], daos[i]);
@@ -129,9 +163,4 @@ public class MySQLDAOFactory extends RatatouilleDAOFactory {
 		}
 		return mapaDAO;
 	}
-
-
-
-
-
 }

@@ -60,4 +60,16 @@ public abstract class RatatouilleDAOFactory extends BaseDAOFactory {
 	
 	
 	public abstract WebpageDAO getWebpageDAO();
+
+
+
+	public abstract AlimentoDAO getAlimentoDAO();
+
+
+
+	public abstract IngredienteDAO getIngredienteDAO();
+
+
+
+	public abstract InstrucaoPreparoDAO getInstrucaoPreparoDAO();
 }

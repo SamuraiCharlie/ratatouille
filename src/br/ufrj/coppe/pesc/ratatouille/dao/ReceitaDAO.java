@@ -23,7 +23,6 @@ public interface ReceitaDAO extends DataAccessObject<Receita>{
 	 */
 	List<Receita> obterPorIngredientes(String... ingredientes) throws ImpossivelObterDadosException;
 
-
 	
 	
 	/**
@@ -32,11 +31,13 @@ public interface ReceitaDAO extends DataAccessObject<Receita>{
 	 */
 	void excluirTodas() throws ImpossivelExcluirException;
 
-	
+
 
 	/**
-	 * Obtém todas as receitas.
-	 * */
-	List<Receita> obterTodos() throws ImpossivelObterDadosException;
+	 * Obtém uma receita pelo seu nome.
+	 * @param nome nome da receita que se busca.
+	 * @return receita cujo nome foi informado como parâmetro.
+	 */
+	Receita obterPorNome(String nome) throws ImpossivelObterDadosException;
 
 }

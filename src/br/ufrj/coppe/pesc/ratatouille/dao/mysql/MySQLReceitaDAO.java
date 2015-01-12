@@ -31,13 +31,6 @@ public class MySQLReceitaDAO extends MySQLBaseDAO<Receita> implements ReceitaDAO
 		}
 		
 		return getFRMObjectStatement().obterOnde(strb.toString());
-	} 
-	
-	@Override
-	public List<Receita> obterTodos() throws ImpossivelObterDadosException {
-		
-		
-		return getFRMObjectStatement().obterTodos();
 	}
 
 
@@ -52,5 +45,14 @@ public class MySQLReceitaDAO extends MySQLBaseDAO<Receita> implements ReceitaDAO
 			logger.error(msg, e);
 			throw new ImpossivelExcluirException(msg, e);
 		}
+	}
+
+
+
+	@Override
+	public Receita obterPorNome(String nome) throws ImpossivelObterDadosException {
+		List<Receita> result = getFRMObjectStatement().obterOnde("rec_nome = '" + nome + "'");
+		if (result.isEmpty()) return null;
+		return result.get(0);
 	}
 }

@@ -5,19 +5,25 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelConsultarListaAlimentosException;
 import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelObterWebpagesComConteudoException;
+import br.ufrj.coppe.pesc.ratatouille.model.Alimento;
 import br.ufrj.coppe.pesc.ratatouille.model.Ingrediente;
 import br.ufrj.coppe.pesc.ratatouille.model.InstrucaoPreparo;
 import br.ufrj.coppe.pesc.ratatouille.model.Receita;
 import br.ufrj.coppe.pesc.ratatouille.model.Webpage;
+import br.ufrj.coppe.pesc.ratatouille.service.AlimentoService;
 import br.ufrj.coppe.pesc.ratatouille.service.ServiceLocator;
 import br.ufrj.coppe.pesc.ratatouille.service.WebpageService;
 
@@ -29,6 +35,18 @@ public class ParserReceitas {
 
 	private static final Logger logger = LoggerFactory.getLogger(ParserReceitas.class);
 	
+	private List<Alimento> alimentos;
+	
+	public List<Alimento> getAlimentos() {
+		return alimentos;
+	}
+
+
+	public void setAlimentos(List<Alimento> alimentos) {
+		this.alimentos = alimentos;
+	}
+
+
 	public static void main(String[] args) throws SQLException, IOException {
 
 		PrintWriter writer = new PrintWriter("d:/temp/ingredientes_vinicius.txt", "UTF-8");
@@ -69,7 +87,7 @@ public class ParserReceitas {
 				String titulo = pegaTituloReceita(doc);
 				
 				receita.setHtml(webpage.getContent());
-				receita.setUrl(webpage.getUrl());
+				receita.setUrl(inverterUrl(webpage.getUrl()));
 				receita.setNome(titulo);
 				
 				StringBuilder strb = new StringBuilder();
@@ -79,6 +97,7 @@ public class ParserReceitas {
 				for (Element e : ingredientes){
 					ingrediente = new Ingrediente();
 					ingrediente.setTexto(e.text());
+					definirHtml(ingrediente);
 					lstIngredientes.add(ingrediente);
 					strb.append(e).append("\n");
 				}
@@ -110,6 +129,13 @@ public class ParserReceitas {
 				}
 			}
 			
+			Elements parentElements = elementIngredientes.parents();
+			String text = parentElements.html();
+			Pattern p = Pattern.compile("src=\"([^\"]*)\"");
+			Matcher m = p.matcher(text);
+			if (m.find()){
+				receita.setUrlImagem(m.group(1));
+			}
 			
 			if (receita.getTextoIngredientes()!=null) return receita;
 		}
@@ -118,6 +144,24 @@ public class ParserReceitas {
 	
 	
 	
+	private void definirHtml(Ingrediente ingrediente) {
+		String texto = ingrediente.getTexto();
+		for (Alimento alimento: alimentos){
+			if (texto.indexOf(alimento.getNome())>=0){
+				ingrediente.setHtml(texto.replace(alimento.getNome(), "<span class=\"alimento\">"+alimento.getNome()+"</span>"));
+				return;
+			}
+		}
+		logger.debug("Não identificou alimento para ==> " + texto);
+	}
+	
+	
+	
+	/**
+	 * Obtém nome da receita.
+	 * @param doc
+	 * @return
+	 */
 	private String pegaTituloReceita(Document doc) {
 		Element e1 = doc.select(".item, .contentheading").first();
 		if (e1 != null) {
@@ -133,6 +177,11 @@ public class ParserReceitas {
 
 	
 	
+	/**
+	 * Verifica se a webpage passada como parâmetro contém uma receita de culinária.
+	 * @param doc
+	 * @return
+	 */
 	private boolean verificaSeEhPaginaDeReceita(Document doc) {
 		Element e1 = doc.select(".contentpaneopen tbody tr:eq(1) td p:eq(0)").first();
 		if (e1 != null) {
@@ -149,5 +198,26 @@ public class ParserReceitas {
 		}
 
 		return false;
+	}
+	
+	
+	
+	/**
+	 * Pega uma URL invertida e a coloca na forma normal, da esquerda para a direita.
+	 * @param url URL a ser invertida.
+	 * @return URL da forma como é utilizada pelos browsers.
+	 */
+	private String inverterUrl(String url){
+		if (url == null) return null;
+		String dominioInvertido = url.substring(0, url.indexOf(":"));
+		String[] partesDominio = dominioInvertido.split("\\.");
+		StringBuilder strb = new StringBuilder();
+		strb.append(url.substring(url.indexOf(":")+1,url.indexOf("/"))).append("://");
+		for (int i=0;i<partesDominio.length-1;i++){
+			strb.append(partesDominio[partesDominio.length-1-i]).append(".");
+		}
+		strb.append(partesDominio[0]);
+		strb.append(url.substring(url.indexOf("/")));
+		return strb.toString();
 	}
 }

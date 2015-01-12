@@ -6,10 +6,12 @@ public class ServiceLocator {
 	private static ServiceLocator instance;
 	private ReceitaService receitaService;
 	private WebpageService webpageService;
+	private AlimentoService alimentoService;
 
 	private ServiceLocator() {
 		receitaService = new ReceitaServiceImpl();
 		webpageService = new WebpageServiceImpl();
+		alimentoService = new AlimentoServiceImpl();
 	}
 
 
@@ -31,6 +33,12 @@ public class ServiceLocator {
 
 	public WebpageService getWebpageService() {
 		return webpageService;
+	}
+
+
+
+	public AlimentoService getAlimentoService() {
+		return alimentoService;
 	}
 
 	

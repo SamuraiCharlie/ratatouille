@@ -8,6 +8,7 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/mrjsontable.css" rel="stylesheet" />
     <link href="css/ratatouille.css" rel="stylesheet" />
    
 
@@ -20,13 +21,25 @@
     <script type="text/javascript">
     	function buscar(){
     		$.get("./rest/busca/" + $("#txtQuery").val(), function(receitas){
-    			$("#tblReceitas").empty();
+    			$("#results").empty();
     			var receita;
     			var i;
+    			var html = "";
+    			html = "<div class=\"row\">";
 				for (i=0;i<receitas.length; i++){
 					receita = receitas[i];
-					$("#tblReceitas").append("<tr><td>"+receita.nome+"</td></tr>");
+					html += "<div class=\"col-sm-6 col-md-3\">";
+					html += "<a href=\""+ receita.url +"\" class=\"thumbnail\">";
+					html += "<img src=\"" + receita.urlImagem + "\" alt=\"" + receita.nome + "\">";
+					html += "</a>";
+					html += "<div class=\"caption\">";
+					html += "<h4>" + receita.nome + "</h4>";
+					html += "</div>";
+					html += "</div>";
 				}
+				html += "</div>";
+				
+				$("#results").append(html);
     		});
     	}    	
     </script>
@@ -36,6 +49,7 @@
 		<script src="javascript/jquery-1.10.2.min.js"></script>
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script src="javascript/bootstrap.min.js"></script>
+		<script src="javascript/mrjsontable.min.js"></script>
 		<div class="page-header">
 			<h1>Ratatouille <small>buscador de receitas</small></h1>
 		</div>
@@ -51,10 +65,9 @@
 		   	</div>
 		</div>
 		
-		<div class="row" style="padding-top:20px">
-			<div id="results" class="col-lg-6">
-				<table id="tblReceitas" class="table">
-				</table>
+		<div class="panel panel-default" style="padding-top:20px">
+			<div id="results">
+				
 			</div>
 		</div>
 	</body>
