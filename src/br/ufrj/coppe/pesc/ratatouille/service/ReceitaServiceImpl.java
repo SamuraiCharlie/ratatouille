@@ -29,6 +29,27 @@ public class ReceitaServiceImpl implements ReceitaService {
 	
 	public ReceitaServiceImpl() {
 	}
+	
+	
+	
+	@Override
+	public List<Receita> buscaTodos() throws ImpossivelBuscarReceitaPorIngredienteException {
+		RatatouilleDAOFactory daoFactory = RatatouilleDAOFactory.instance();
+		
+		ReceitaDAO rDAO = daoFactory.getReceitaDAO();
+		try {
+			daoFactory.beginTransaction();
+			List<Receita> listaReceitas = rDAO.obterTodos();
+			daoFactory.commit();
+			return listaReceitas;
+		}
+		catch (ImpossivelObterDadosException e) {
+			String msg = "Erro obtendo receitas.";
+			logger.error(msg, e);
+			daoFactory.rollback();
+			throw new ImpossivelBuscarReceitaPorIngredienteException(msg, e);
+		}
+	}
 
 	
 	

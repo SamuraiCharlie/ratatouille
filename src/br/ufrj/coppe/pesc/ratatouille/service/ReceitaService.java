@@ -16,6 +16,14 @@ import br.ufrj.coppe.pesc.ratatouille.model.Receita;
  */
 public interface ReceitaService {
 
+	/**
+	 * Busca todas as receitas.
+	 * @return lista de todas as receitas cadastradas.
+	 * @throws ImpossivelBuscarReceitaPorIngredienteException
+	 */
+	List<Receita> buscaTodos() throws ImpossivelBuscarReceitaPorIngredienteException;
+	
+	
 	
 	/**
 	 * Busca receitas por ingredientes.
