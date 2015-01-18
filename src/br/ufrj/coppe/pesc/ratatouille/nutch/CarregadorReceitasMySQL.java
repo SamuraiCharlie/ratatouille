@@ -7,10 +7,12 @@ import org.slf4j.LoggerFactory;
 
 import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelCadastrarReceitaException;
 import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelCarregarReceitasAPartirDasPaginasWebException;
+import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelConsultarListaAlimentosException;
 import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelExcluirReceitasException;
 import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelObterWebpagesComConteudoException;
 import br.ufrj.coppe.pesc.ratatouille.model.Receita;
 import br.ufrj.coppe.pesc.ratatouille.model.Webpage;
+import br.ufrj.coppe.pesc.ratatouille.service.AlimentoService;
 import br.ufrj.coppe.pesc.ratatouille.service.ReceitaService;
 import br.ufrj.coppe.pesc.ratatouille.service.ServiceLocator;
 import br.ufrj.coppe.pesc.ratatouille.service.WebpageService;
@@ -27,7 +29,9 @@ public class CarregadorReceitasMySQL {
 		ServiceLocator serviceLocator = ServiceLocator.instance();
 		WebpageService ws = serviceLocator.getWebpageService();
 		ReceitaService rs = serviceLocator.getReceitaService();
+		AlimentoService as = serviceLocator.getAlimentoService();
 		try {
+			parser.setAlimentos(as.obterListaAlimentos());
 			rs.excluirReceitas();
 			List<Webpage> res = ws.obterWepbagesComConteudo();
 			for (Webpage w : res) {
@@ -37,7 +41,7 @@ public class CarregadorReceitasMySQL {
 				}
 			}
 		}
-		catch (ImpossivelObterWebpagesComConteudoException | ImpossivelCadastrarReceitaException | ImpossivelExcluirReceitasException e) {
+		catch (ImpossivelObterWebpagesComConteudoException | ImpossivelCadastrarReceitaException | ImpossivelExcluirReceitasException | ImpossivelConsultarListaAlimentosException e) {
 			String msg = "Erro realizando carga de receitas a partir das páginas web.";
 			logger.error(msg, e);
 			throw new ImpossivelCarregarReceitasAPartirDasPaginasWebException(msg, e);

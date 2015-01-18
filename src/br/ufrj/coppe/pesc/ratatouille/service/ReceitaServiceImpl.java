@@ -95,9 +95,11 @@ public class ReceitaServiceImpl implements ReceitaService {
 				ingrediente.setReceita(receita);
 				iDAO.inserir(ingrediente);
 			}
-			for (InstrucaoPreparo instrucaoPreparo: receita.getModoPreparo()){
-				instrucaoPreparo.setReceita(receita);
-				iprDAO.inserir(instrucaoPreparo);
+			if (receita.getModoPreparo() != null){
+				for (InstrucaoPreparo instrucaoPreparo: receita.getModoPreparo()){
+					instrucaoPreparo.setReceita(receita);
+					iprDAO.inserir(instrucaoPreparo);
+				}
 			}
 			daof.commit();
 		}
