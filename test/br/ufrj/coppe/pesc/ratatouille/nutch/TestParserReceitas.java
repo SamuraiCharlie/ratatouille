@@ -67,17 +67,17 @@ public class TestParserReceitas {
 		assertEquals("4 xícaras (chá) de água fervente", lst.get(10).getTexto());
 		
 		
-		assertEquals("2 colheres (sopa) de <span class=\"alimento\">azeite de oliva</span>", lst.get(0).getHtml());
-		assertEquals("1 <span class=\"alimento\">cebola</span> média cortada em cubinhos", lst.get(1).getHtml());
-		assertEquals("2 dentes de <span class=\"alimento\">alho</span> picados", lst.get(2).getHtml());
-		assertEquals("1 <span class=\"alimento\">frango</span> cortado em pedaços", lst.get(3).getHtml());
-		assertEquals("2 envelopes de <span class=\"alimento\">caldo de galinha</span> em pó", lst.get(4).getHtml());
-		assertEquals("2 xícaras (chá) de <span class=\"alimento\">arroz</span>", lst.get(5).getHtml());
-		assertEquals("1 <span class=\"alimento\">cenoura</span> média cortada em cubinhos", lst.get(6).getHtml());
-		assertEquals("1 tomate sem pele e sem <span class=\"alimento\">sementes</span> picado", lst.get(7).getHtml());
-		assertEquals("1 <span class=\"alimento\">pimentão vermelho</span> cortado em rodelas", lst.get(8).getHtml());
-		assertEquals("¼ de xícara (chá) de <span class=\"alimento\">cheiro verde</span> picado", lst.get(9).getHtml());
-		assertEquals("4 xícaras (chá) de <span class=\"alimento\">água</span> fervente", lst.get(10).getHtml());
+		assertEquals("<li>2 colheres (sopa) de <span class=\"alimento\">azeite de oliva</span></li>", lst.get(0).getHtml());
+		assertEquals("<li>1 <span class=\"alimento\">cebola</span> média cortada em cubinhos</li>", lst.get(1).getHtml());
+		assertEquals("<li>2 dentes de <span class=\"alimento\">alho</span> picados</li>", lst.get(2).getHtml());
+		assertEquals("<li>1 <span class=\"alimento\">frango</span> cortado em pedaços</li>", lst.get(3).getHtml());
+		assertEquals("<li>2 envelopes de <span class=\"alimento\">caldo de galinha</span> em pó</li>", lst.get(4).getHtml());
+		assertEquals("<li>2 xícaras (chá) de <span class=\"alimento\">arroz</span></li>", lst.get(5).getHtml());
+		assertEquals("<li>1 <span class=\"alimento\">cenoura</span> média cortada em cubinhos</li>", lst.get(6).getHtml());
+		assertEquals("<li>1 tomate sem pele e sem <span class=\"alimento\">sementes</span> picado</li>", lst.get(7).getHtml());
+		assertEquals("<li>1 <span class=\"alimento\">pimentão vermelho</span> cortado em rodelas</li>", lst.get(8).getHtml());
+		assertEquals("<li>¼ de xícara (chá) de <span class=\"alimento\">cheiro verde</span> picado</li>", lst.get(9).getHtml());
+		assertEquals("<li>4 xícaras (chá) de <span class=\"alimento\">água</span> fervente</li>", lst.get(10).getHtml());
 	}
 
 	
