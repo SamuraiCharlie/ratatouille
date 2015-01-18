@@ -74,7 +74,7 @@ public class TestParserReceitas {
 		assertEquals("2 envelopes de <span class=\"alimento\">caldo de galinha</span> em pó", lst.get(4).getHtml());
 		assertEquals("2 xícaras (chá) de <span class=\"alimento\">arroz</span>", lst.get(5).getHtml());
 		assertEquals("1 <span class=\"alimento\">cenoura</span> média cortada em cubinhos", lst.get(6).getHtml());
-		assertEquals("1 <span class=\"alimento\">tomate</span> sem pele e sem sementes picado", lst.get(7).getHtml());
+		assertEquals("1 tomate sem pele e sem <span class=\"alimento\">sementes</span> picado", lst.get(7).getHtml());
 		assertEquals("1 <span class=\"alimento\">pimentão vermelho</span> cortado em rodelas", lst.get(8).getHtml());
 		assertEquals("¼ de xícara (chá) de <span class=\"alimento\">cheiro verde</span> picado", lst.get(9).getHtml());
 		assertEquals("4 xícaras (chá) de <span class=\"alimento\">água</span> fervente", lst.get(10).getHtml());

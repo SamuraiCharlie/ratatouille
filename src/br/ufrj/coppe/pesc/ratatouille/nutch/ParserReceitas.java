@@ -99,7 +99,7 @@ public class ParserReceitas {
 					ingrediente.setTexto(e.text());
 					definirHtml(ingrediente);
 					lstIngredientes.add(ingrediente);
-					strb.append(e).append("\n");
+					strb.append(ingrediente.getHtml()).append("\n");
 				}
 				receita.setIngredientes(lstIngredientes);
 				receita.setTextoIngredientes(strb.toString());
@@ -148,7 +148,7 @@ public class ParserReceitas {
 		String texto = ingrediente.getTexto();
 		for (Alimento alimento: alimentos){
 			if (texto.indexOf(alimento.getNome())>=0){
-				ingrediente.setHtml(texto.replace(alimento.getNome(), "<span class=\"alimento\">"+alimento.getNome()+"</span>"));
+				ingrediente.setHtml("<li>" + texto.replace(alimento.getNome(), "<span class=\"alimento\">"+alimento.getNome()+"</span>") + "</li>");
 				return;
 			}
 		}

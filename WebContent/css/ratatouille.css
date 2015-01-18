@@ -1,3 +1,11 @@
 #results tbody tr{
 	cursor: pointer;
 }
+
+.alimento{
+	text-decoration: underline;
+}
+
+.alimento:hover{
+	cursor: pointer;
+}

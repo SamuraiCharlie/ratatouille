@@ -10,6 +10,7 @@ import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelCarregarReceitasAParti
 import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelConsultarListaAlimentosException;
 import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelExcluirReceitasException;
 import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelObterWebpagesComConteudoException;
+import br.ufrj.coppe.pesc.ratatouille.model.Alimento;
 import br.ufrj.coppe.pesc.ratatouille.model.Receita;
 import br.ufrj.coppe.pesc.ratatouille.model.Webpage;
 import br.ufrj.coppe.pesc.ratatouille.service.AlimentoService;
@@ -31,7 +32,8 @@ public class CarregadorReceitasMySQL {
 		ReceitaService rs = serviceLocator.getReceitaService();
 		AlimentoService as = serviceLocator.getAlimentoService();
 		try {
-			parser.setAlimentos(as.obterListaAlimentos());
+			List<Alimento> listaAlimentos = as.obterListaAlimentos();
+			parser.setAlimentos(listaAlimentos);
 			rs.excluirReceitas();
 			List<Webpage> res = ws.obterWepbagesComConteudo();
 			for (Webpage w : res) {

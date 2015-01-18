@@ -19,6 +19,14 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript">
+    	function adicionarFiltro(filtro){
+    		query = $("#txtQuery").val();
+    		if (query.indexOf(filtro) < 0){
+    			$("#txtQuery").val(query + " " + filtro);
+    			buscar();
+    		}
+    	}
+    	
     	function buscar(){
     		$.get("./rest/busca/" + $("#txtQuery").val(), function(receitas){
     			$("#results").empty();
@@ -35,11 +43,16 @@
 					html += "<div class=\"caption\">";
 					html += "<h4>" + receita.nome + "</h4>";
 					html += "</div>";
+					html += "<div><ul>" + receita.textoIngredientes + "</ul></div>";
 					html += "</div>";
 				}
 				html += "</div>";
 				
 				$("#results").append(html);
+				
+				$(".alimento").click(function(clickEvt){
+					adicionarFiltro($(this).text());
+				});
     		});
     	}    	
     </script>
