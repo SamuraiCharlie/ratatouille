@@ -53,8 +53,25 @@
 				$(".alimento").click(function(clickEvt){
 					adicionarFiltro($(this).text());
 				});
+				
+				$(".alimento").mouseover(function(mouseEvt){
+					exibirAlimento($(this).offset(), $(this).text());
+				});
+				
+				$(".alimento").mouseout(function(mouseEvt){
+					$("#divalimento").css("display", "none");
+				});
     		});
     	}    	
+    	
+    	
+    	function exibirAlimento(position, alimento){
+    		$.get("./rest/buscaalimento/" + alimento, function(conteudo){
+    			$("#nomealimento").html(alimento.charAt(0).toUpperCase() + alimento.slice(1));
+    			$("#infoalimento").html(conteudo);
+    			$("#divalimento").css("display", "block");
+    		});
+    	}
     </script>
   </head>
 	<body>
@@ -82,6 +99,11 @@
 			<div id="results">
 				
 			</div>
+		</div>
+		
+		<div id="divalimento" class="panel panel-info" style="display:none; top:5px; left:500px; position:absolute">
+			<div id="nomealimento" class="panel-heading"></div>
+			<div id="infoalimento" class="panel-body"></div>
 		</div>
 	</body>
 </html>

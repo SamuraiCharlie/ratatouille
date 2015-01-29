@@ -25,9 +25,9 @@ public class MySQLReceitaDAO extends MySQLBaseDAO<Receita> implements ReceitaDAO
 	
 	@Override
 	public List<Receita> obterPorIngredientes(String... ingredientes) throws ImpossivelObterDadosException {
-		StringBuilder strb = new StringBuilder("rec_ingredientes LIKE '%").append(ingredientes[0]).append("%'");
+		StringBuilder strb = new StringBuilder("(rec_ingredientes LIKE '%").append(ingredientes[0]).append("%' OR rec_nome LIKE '%").append(ingredientes[0]).append("%')");
 		for (int i=1;i<ingredientes.length;i++){
-			strb.append(" AND rec_ingredientes LIKE '%").append(ingredientes[i]).append("%'");
+			strb.append(" OR (rec_ingredientes LIKE '%").append(ingredientes[i]).append("%' OR rec_nome LIKE '%").append(ingredientes[i]).append("%')");
 		}
 		
 		return getFRMObjectStatement().obterOnde(strb.toString());

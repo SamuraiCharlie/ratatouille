@@ -2,6 +2,7 @@ package br.ufrj.coppe.pesc.ratatouille.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -13,8 +14,10 @@ import javax.persistence.Table;
 @Table(name = "AIG_ALIMENTO_IG")
 public class Alimento {
 
+	private Integer id;
 	private String nome;
-
+	private Integer frequencia;
+	private String informacoes;
 
 
 	public Alimento() {
@@ -23,6 +26,20 @@ public class Alimento {
 
 
 	@Id
+	@Column(name = "aig_id_alimento")
+	@GeneratedValue
+	public Integer getId() {
+		return id;
+	}
+
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+
 	@Column(name = "aig_nome")
 	public String getNome() {
 		return nome;
@@ -32,6 +49,19 @@ public class Alimento {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+
+
+	@Column(name = "aig_frequencia")
+	public Integer getFrequencia() {
+		return frequencia;
+	}
+
+
+
+	public void setFrequencia(Integer frequencia) {
+		this.frequencia = frequencia;
 	}
 
 
@@ -64,12 +94,23 @@ public class Alimento {
 		return true;
 	}
 
-	
-
 
 
 	@Override
 	public String toString() {
 		return "Alimento [nome=" + nome + "]";
 	}
+
+
+	@Column(name = "aig_informacoes")
+	public String getInformacoes() {
+		return informacoes;
+	}
+
+
+
+	public void setInformacoes(String informacoes) {
+		this.informacoes = informacoes;
+	}
+
 }

@@ -31,7 +31,7 @@ public class TestReceitaService {
 	
 	@Test
 	public void testBuscaPorIngredientes() throws ImpossivelBuscarReceitaPorIngredienteException {
-		List<Receita> lst = rs.buscaPorIngredientes("maminha");
+		List<Receita> lst = rs.buscaPorIngredientes("maminha", ReceitaService.TipoBusca.MySQL);
 		
 		assertNotNull(lst);
 		assertFalse(lst.isEmpty());

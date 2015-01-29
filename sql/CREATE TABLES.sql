@@ -20,8 +20,20 @@ DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE AIG_ALIMENTO_IG(
 	aig_id_alimento INT AUTO_INCREMENT PRIMARY KEY,
-	aig_nome VARCHAR(40) UNIQUE 
+	aig_nome VARCHAR(40) UNIQUE,
+	aig_frequencia INT NOT NULL default 0,
+	aig_informacoes TEXT
 )ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE CAL_CORRELACAO_ALIMENTO(
+	cal_id_correlacao INT AUTO_INCREMENT PRIMARY KEY,
+	cal_id_alimento_a INT NOT NULL,
+	cal_id_alimento_b INT NOT NULL,
+	cal_frequencia INT NOT NULL default 0,
+	CONSTRAINT FK_CORRELACAO_ALIMENTO_A FOREIGN KEY (cal_id_alimento_a) REFERENCES AIG_ALIMENTO_IG (aig_id_alimento),
+	CONSTRAINT FK_CORRELACAO_ALIMENTO_B FOREIGN KEY (cal_id_alimento_b) REFERENCES AIG_ALIMENTO_IG (aig_id_alimento)
+) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4;
 
 

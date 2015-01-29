@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -26,7 +25,7 @@ public class Receita {
 	private String textoModoPreparo;
 	private List<Ingrediente> ingredientes;
 	private List<InstrucaoPreparo> modoPreparo;
-
+	private Float rank;
 	
 	
 	public Receita() {
@@ -229,7 +228,28 @@ public class Receita {
 
 	@Override
 	public String toString() {
-		return "Receita [id=" + id + ", nome=" + nome + ", url=" + url + ", urlImagem=" + urlImagem + ", html=" + html + ", textoIngredientes=" + textoIngredientes + ", textoModoPreparo=" + textoModoPreparo + ", ingredientes=" + ingredientes + ", modoPreparo=" + modoPreparo + "]";
+		return "Receita [nome=" + nome + ", rank = " + rank + "]";
+	}
+
+
+	public void calcularRank(String query) {
+		rank = 0f;
+		String tokens[] = query.toLowerCase().split(" ");
+		String nomeLowerCase = this.nome.toLowerCase();
+		String textoIngredientesLowerCase = this.textoIngredientes.toLowerCase();
+		for (String token : tokens){
+			if (nomeLowerCase.contains(token)){
+				rank += 1.2f;
+			}
+			if (textoIngredientesLowerCase.contains(token)){
+				rank += 1.0f / (ingredientes==null? 1 : ingredientes.size());
+			}
+		}
+	}
+
+
+	public Float getRank() {
+		return rank;
 	}
 
 }

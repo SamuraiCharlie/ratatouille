@@ -16,6 +16,8 @@ import br.ufrj.coppe.pesc.ratatouille.model.Receita;
  */
 public interface ReceitaService {
 
+	public enum TipoBusca{MySQL, Lucene};
+	
 	/**
 	 * Busca todas as receitas.
 	 * @return lista de todas as receitas cadastradas.
@@ -31,7 +33,7 @@ public interface ReceitaService {
 	 * @return lista de receita que satisfazem a busca.
 	 * @throws ImpossivelBuscarReceitaPorIngredienteException caso não seja possível executar a consulta.
 	 */
-	List<Receita> buscaPorIngredientes(String query) throws ImpossivelBuscarReceitaPorIngredienteException;
+	List<Receita> buscaPorIngredientes(String query, TipoBusca tipoBusca) throws ImpossivelBuscarReceitaPorIngredienteException;
 
 	
 	

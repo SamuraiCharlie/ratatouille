@@ -1,7 +1,9 @@
 package br.ufrj.coppe.pesc.ratatouille.service;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +19,7 @@ import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelCadastrarReceitaExcept
 import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelConsultarReceitaPorNomeException;
 import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelExcluirReceitaException;
 import br.ufrj.coppe.pesc.ratatouille.exception.ImpossivelExcluirReceitasException;
+import br.ufrj.coppe.pesc.ratatouille.lucene.SearchReceitas;
 import br.ufrj.coppe.pesc.ratatouille.model.Ingrediente;
 import br.ufrj.coppe.pesc.ratatouille.model.InstrucaoPreparo;
 import br.ufrj.coppe.pesc.ratatouille.model.Receita;
@@ -57,23 +60,38 @@ public class ReceitaServiceImpl implements ReceitaService {
 	 * @see br.ufrj.coppe.pesc.ratatouille.service.ReceitaService#buscaPorIngredientes(java.lang.String)
 	 */
 	@Override
-	public List<Receita> buscaPorIngredientes(String query) throws ImpossivelBuscarReceitaPorIngredienteException {
-		RatatouilleDAOFactory daoFactory = RatatouilleDAOFactory.instance();
-		
-		ReceitaDAO rDAO = daoFactory.getReceitaDAO();
-		String [] ingredientes = query.split(" ");
-		try {
-			daoFactory.beginTransaction();
-			List<Receita> listaReceitas = rDAO.obterPorIngredientes(ingredientes);
-			daoFactory.commit();
-			return listaReceitas;
+	public List<Receita> buscaPorIngredientes(String query, TipoBusca tipoBusca) throws ImpossivelBuscarReceitaPorIngredienteException {
+		switch (tipoBusca){
+			case MySQL: 
+				RatatouilleDAOFactory daoFactory = RatatouilleDAOFactory.instance();
+				
+				ReceitaDAO rDAO = daoFactory.getReceitaDAO();
+				String [] ingredientes = query.split(" ");
+				try {
+					daoFactory.beginTransaction();
+					List<Receita> listaReceitas = rDAO.obterPorIngredientes(ingredientes);
+					daoFactory.commit();
+					return listaReceitas;
+				}
+				catch (ImpossivelObterDadosException e) {
+					String msg = "Erro obtendo receitas do MySQL.";
+					logger.error(msg, e);
+					daoFactory.rollback();
+					throw new ImpossivelBuscarReceitaPorIngredienteException(msg, e);
+				}
+			case Lucene:
+				try{
+					SearchReceitas sr = SearchReceitas.getInstance();
+					return sr.pesquisaReceitas(query);
+				}
+				catch (IOException | ParseException e){
+					String msg = "Erro obtendo receitas do Lucene.";
+					logger.error(msg, e);
+					throw new ImpossivelBuscarReceitaPorIngredienteException(msg, e);
+				}
+				
 		}
-		catch (ImpossivelObterDadosException e) {
-			String msg = "Erro obtendo receitas.";
-			logger.error(msg, e);
-			daoFactory.rollback();
-			throw new ImpossivelBuscarReceitaPorIngredienteException(msg, e);
-		}
+		return null;
 	}
 
 

@@ -147,11 +147,13 @@ public class ParserReceitas {
 	private void definirHtml(Ingrediente ingrediente) {
 		String texto = ingrediente.getTexto();
 		for (Alimento alimento: alimentos){
-			if (texto.indexOf(alimento.getNome())>=0){
+			if (texto.contains(alimento.getNome())){
 				ingrediente.setHtml("<li>" + texto.replace(alimento.getNome(), "<span class=\"alimento\">"+alimento.getNome()+"</span>") + "</li>");
+				ingrediente.setAlimento(alimento);
 				return;
 			}
 		}
+		ingrediente.setHtml("<li>" + texto + "</li>");
 		logger.debug("Não identificou alimento para ==> " + texto);
 	}
 	
